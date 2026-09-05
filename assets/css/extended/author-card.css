@@ -1,0 +1,70 @@
+.post-meta-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+
+.post-meta-line {
+    font-size: 14px;
+    color: rgb(80, 80, 80);
+}
+
+[data-theme="dark"] .post-meta-line {
+    color: rgb(170, 170, 170);
+}
+
+.post-meta-line span {
+    font-size: 14px;
+}
+
+.post-meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.post-author-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.post-author-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+    opacity: 0.7;
+}
+
+.post-author-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.post-author-desc {
+    font-size: 14px;
+    color: var(--secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.post-author-socials {
+    display: flex;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.post-author-socials a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--secondary);
+    transition: color 0.15s;
+}
+
+.post-author-socials a:hover {
+    color: var(--primary);
+}

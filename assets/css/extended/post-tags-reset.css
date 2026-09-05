@@ -1,0 +1,9 @@
+.post-tags a,
+.terms-tags a {
+    display: inline-flex;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}

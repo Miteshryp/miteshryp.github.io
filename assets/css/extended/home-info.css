@@ -1,0 +1,35 @@
+.home-info-layout {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--gap) * 2);
+}
+
+.home-info-image {
+    flex-shrink: 0;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--content);
+}
+
+.home-info-text {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .home-info-layout {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--gap);
+    }
+
+    .profile-img {
+        width: 96px;
+        height: 96px;
+    }
+}

@@ -1,0 +1,7 @@
+__pycache__
+node_modules
+
+# Hugo build output (recreated by the CI workflow)
+public/
+resources/
+.hugo_build.lock

@@ -1,0 +1,3 @@
+<a href="{{ .Get "href" }}" class="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium no-underline transition {{ if eq (.Get "variant") "secondary" }}border border-current opacity-80 hover:opacity-100{{ else }}bg-current text-current invert dark:invert-0{{ end }}" {{ with .Get "target" }}target="{{ . }}"{{ end }} {{ with .Get "rel" }}rel="{{ . }}"{{ end }}>
+{{- .Inner | markdownify -}}
+</a>

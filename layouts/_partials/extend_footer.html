@@ -1,0 +1,122 @@
+{{- /* Footer custom content area start */ -}}
+<div class="search-modal-overlay" id="search-modal-overlay" aria-hidden="true">
+    <div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="search-modal-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="search" class="search-modal-input" id="search-modal-input"
+                placeholder="Search posts…" autocomplete="off" aria-label="Search">
+            <button class="search-modal-close" id="search-modal-close" aria-label="Close search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="search-modal-body" id="search-modal-results">
+            <div class="search-modal-empty">Start typing to search posts…</div>
+        </div>
+    </div>
+</div>
+<script>
+(() => {
+    const overlay = document.getElementById('search-modal-overlay');
+    const input = document.getElementById('search-modal-input');
+    const results = document.getElementById('search-modal-results');
+    const toggle = document.getElementById('search-toggle');
+    const close = document.getElementById('search-modal-close');
+
+    let fuse = null;
+    let idx = null;
+
+    const open = () => {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('search-modal-open');
+        setTimeout(() => input.focus(), 100);
+        if (!idx) loadIndex();
+    };
+
+    const shut = () => {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('search-modal-open');
+        input.value = '';
+        renderResults([], '');
+    };
+
+    const loadIndex = async () => {
+        try {
+            const r = await fetch('/index.json');
+            if (!r.ok) throw new Error('Index load failed');
+            idx = await r.json();
+            if (idx && typeof Fuse !== 'undefined') {
+                fuse = new Fuse(idx, {
+                    keys: ['title', 'content', 'summary'],
+                    threshold: 0.4,
+                    distance: 100,
+                    ignoreLocation: true
+                });
+            }
+        } catch (e) { console.error(e); }
+    };
+
+    const renderResults = (items, query) => {
+        if (!query) {
+            results.innerHTML = '<div class="search-modal-empty">Start typing to search posts…</div>';
+            return;
+        }
+        if (!items.length) {
+            results.innerHTML = '<div class="search-modal-empty">No results found for "' + escapeHtml(query) + '"</div>';
+            return;
+        }
+        results.innerHTML = items.map(item => `
+            <a href="${item.item.permalink}" class="search-modal-result">
+                <div class="search-modal-result-title">${escapeHtml(item.item.title)}</div>
+                <div class="search-modal-result-summary">${escapeHtml(item.item.summary || '')}</div>
+            </a>
+        `).join('');
+    };
+
+    const escapeHtml = (str) => {
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    };
+
+    const performSearch = () => {
+        const q = input.value.trim();
+        if (!fuse) {
+            results.innerHTML = '<div class="search-modal-empty">Loading search index…</div>';
+            return;
+        }
+        const found = q ? fuse.search(q) : [];
+        renderResults(found, q);
+    };
+
+    input.addEventListener('input', performSearch);
+
+    toggle.addEventListener('click', open);
+
+    close.addEventListener('click', shut);
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) shut();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            overlay.classList.contains('open') ? shut() : open();
+        }
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+            shut();
+        }
+    });
+})();
+</script>
+{{- /* Footer custom content area end */ -}}

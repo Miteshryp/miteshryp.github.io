@@ -1,0 +1,69 @@
+baseURL = 'https://miteshryp.github.io/'
+locale = 'en-us'
+title = 'Mitesh Sharma'
+theme = 'PaperMod'
+
+# Number of posts per page on the home page (configurable k value)
+paginate = 5
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  tag = 'tags'
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[menu]
+  [[menu.main]]
+    name = 'Home'
+    url = '/'
+    weight = 1
+  [[menu.main]]
+    name = 'Tags'
+    url = '/tags/'
+    weight = 2
+  [[menu.main]]
+    name = 'Archives'
+    url = '/archives/'
+    weight = 3
+  [[menu.main]]
+    name = 'About'
+    url = '/about/'
+    weight = 4
+
+
+[params]
+  dateFormat = "02-01-2006"
+  mainSections = ['posts']
+  author = "mitesh"
+  ShowReadingTime = true
+  ShowWordCount = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowPageNums = true
+  ShowAllPagesInArchive = true
+  ShowToc = true
+  TocOpen = true
+
+  [params.homeInfoParams]
+    Title = "Hii 👋, I'm Mitesh"
+    Content = """A Compiler Engineer passionate about research and developing systems for High Performance Computing. Currently working with Prof V. Krishna Nandivada @ IIT Madras"""
+    image = "/profile.png"
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/miteshryp"
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://linkedin.com/in/mitesh-sharma-a658871b0"
+  [[params.socialIcons]]
+    name = "email"
+    url = "mailto:miteshryp@gmail.com"
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

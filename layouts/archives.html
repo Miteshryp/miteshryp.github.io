@@ -1,0 +1,46 @@
+{{- define "main" }}
+
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description }}</div>
+  {{- end }}
+</header>
+
+{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- if site.Params.ShowAllPagesInArchive }}
+{{- $pages = site.RegularPages }}
+{{- end }}
+
+<div class="timeline">
+{{- range $pages.GroupByPublishDate "2006" }}
+{{- if ne .Key "0001" }}
+{{- $year := replace .Key "0001" "" }}
+  <div class="timeline-year">
+    <h2 class="timeline-year-header" id="{{ $year }}">{{ $year }}</h2>
+    {{- range .Pages.GroupByDate "January" }}
+    <div class="timeline-month">
+      <h3 class="timeline-month-header" id="{{ $year }}-{{ .Key }}">{{ .Key }}</h3>
+      <div class="timeline-entries">
+        {{- range .Pages }}
+        {{- if eq .Kind "page" }}
+        <div class="timeline-entry">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <a class="timeline-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+            <div class="timeline-meta">
+              {{ .Date | time.Format "2" }}{{ partial "ordinal.html" (.Date | time.Format "2") }} {{ .Date | time.Format "January, 2006" }}
+            </div>
+          </div>
+        </div>
+        {{- end }}
+        {{- end }}
+      </div>
+    </div>
+    {{- end }}
+  </div>
+{{- end }}
+{{- end }}
+</div>
+
+{{- end }}

@@ -1,0 +1,12 @@
+{{- /* Head custom content area start */ -}}
+<link rel="stylesheet" href="/css/tailwind.css">
+{{- $fusejs := resources.Get "js/fuse.basic.min.js" }}
+{{- if $fusejs }}
+{{- if not site.Params.assets.disableFingerprinting }}
+{{- $fusejs = $fusejs | fingerprint }}
+<script defer crossorigin="anonymous" src="{{ $fusejs.RelPermalink }}" integrity="{{ $fusejs.Data.Integrity }}"></script>
+{{- else }}
+<script defer crossorigin="anonymous" src="{{ $fusejs.RelPermalink }}"></script>
+{{- end }}
+{{- end }}
+{{- /* Head custom content area end */ -}}
