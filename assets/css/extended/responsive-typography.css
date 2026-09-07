@@ -1,0 +1,58 @@
+/* Responsive typography calibration: scale down base font and large
+   headings on smaller devices. */
+
+@media (max-width: 768px) {
+    body {
+        font-size: 17px;
+    }
+
+    .logo a {
+        font-size: 20px;
+    }
+
+    .page-header h1,
+    .post-title,
+    .first-entry .entry-header h2 {
+        font-size: 30px;
+    }
+
+    .first-entry .entry-header h1 {
+        font-size: 26px;
+    }
+
+    .md-content h1 {
+        font-size: 30px;
+    }
+
+    .md-content h2 {
+        font-size: 26px;
+    }
+
+    .md-content h3 {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+
+    .page-header h1,
+    .post-title,
+    .first-entry .entry-header h2 {
+        font-size: 26px;
+    }
+
+    .md-content h1 {
+        font-size: 26px;
+    }
+
+    .md-content h2 {
+        font-size: 22px;
+    }
+
+    .md-content h3 {
+        font-size: 19px;
+    }
+}

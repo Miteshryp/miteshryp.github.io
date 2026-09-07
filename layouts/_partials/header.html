@@ -92,6 +92,17 @@
             </div>
             {{- end }}
         </div>
+        <button id="menu-toggle" class="menu-toggle nav-icon-btn" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+            <svg class="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="menu-icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
         {{- $currentPage := . }}
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
@@ -120,3 +131,28 @@
         </ul>
     </nav>
 </header>
+<div id="mobile-menu-overlay" aria-hidden="true"></div>
+<aside id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mobile-menu-header">
+        <span class="mobile-menu-title">{{ $label_text }}</span>
+        <button id="mobile-menu-close" class="nav-icon-btn" aria-label="Close menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <nav class="mobile-menu-nav">
+        <ul>
+            {{- range site.Menus.main }}
+            {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }}
+            {{- $page_url := $currentPage.Permalink | absLangURL }}
+            <li>
+                <a href="{{ .URL | absLangURL }}" class="nav-link">
+                    <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>{{- .Pre }}{{ .Name }}{{ .Post -}}</span>
+                </a>
+            </li>
+            {{- end }}
+        </ul>
+    </nav>
+</aside>
