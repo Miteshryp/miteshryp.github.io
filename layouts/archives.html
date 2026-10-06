@@ -11,36 +11,191 @@
 {{- if site.Params.ShowAllPagesInArchive }}
 {{- $pages = site.RegularPages }}
 {{- end }}
+{{- $yearGroups := $pages.GroupByPublishDate "2006" }}
 
-<div class="timeline">
-{{- range $pages.GroupByPublishDate "2006" }}
-{{- if ne .Key "0001" }}
-{{- $year := replace .Key "0001" "" }}
-  <div class="timeline-year">
-    <h2 class="timeline-year-header" id="{{ $year }}">{{ $year }}</h2>
-    {{- range .Pages.GroupByDate "January" }}
-    <div class="timeline-month">
-      <h3 class="timeline-month-header" id="{{ $year }}-{{ .Key }}">{{ .Key }}</h3>
-      <div class="timeline-entries">
-        {{- range .Pages }}
-        {{- if eq .Kind "page" }}
-        <div class="timeline-entry">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <a class="timeline-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
-            <div class="timeline-meta">
-              {{ .Date | time.Format "2" }}{{ partial "ordinal.html" (.Date | time.Format "2") }} {{ .Date | time.Format "January, 2006" }}
+<div class="blogs-layout">
+  <aside class="blogs-filters" aria-label="Filter blogs">
+    <div class="filter-group">
+      <div class="filter-label" id="tag-filter-label">Tags</div>
+      <div class="filter-dropdown" id="tag-filter">
+        <button type="button" class="filter-dropdown-toggle" id="tag-filter-toggle"
+          aria-haspopup="true" aria-expanded="false" aria-labelledby="tag-filter-label">
+          <span id="tag-filter-value">All tags</span>
+          <svg class="filter-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="filter-dropdown-menu" id="tag-filter-menu" hidden></div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label" for="date-filter">Published</label>
+      <select class="filter-select" id="date-filter">
+        <option value="">All years</option>
+        {{- range $yearGroups }}
+        {{- if ne .Key "0001" }}
+        <option value="{{ .Key }}">{{ .Key }}</option>
+        {{- end }}
+        {{- end }}
+      </select>
+    </div>
+
+    <button type="button" class="filter-clear" id="filter-clear">Clear filters</button>
+    <div class="filter-count" id="filter-count" aria-live="polite"></div>
+  </aside>
+
+  <div class="blogs-main">
+    <div class="timeline" id="timeline">
+      {{- range $yearGroups }}
+      {{- if ne .Key "0001" }}
+      {{- $year := replace .Key "0001" "" }}
+      <div class="timeline-year" data-year="{{ $year }}">
+        <h2 class="timeline-year-header" id="{{ $year }}">{{ $year }}</h2>
+        {{- range .Pages.GroupByDate "January" }}
+        <div class="timeline-month" data-year="{{ $year }}" data-month="{{ .Key }}">
+          <h3 class="timeline-month-header" id="{{ $year }}-{{ .Key }}">{{ .Key }}</h3>
+          <div class="timeline-entries">
+            {{- range .Pages }}
+            {{- if eq .Kind "page" }}
+            <div class="timeline-entry" data-year="{{ $year }}" data-tags="{{ delimit .Params.tags "|" }}">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <a class="timeline-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+                <div class="timeline-meta">
+                  {{ .Date | time.Format "2" }}{{ partial "ordinal.html" (.Date | time.Format "2") }} {{ .Date | time.Format "January, 2006" }}
+                </div>
+              </div>
             </div>
+            {{- end }}
+            {{- end }}
           </div>
         </div>
         {{- end }}
-        {{- end }}
       </div>
+      {{- end }}
+      {{- end }}
     </div>
-    {{- end }}
+    <div class="timeline-empty" id="timeline-empty" hidden>No blogs match these filters.</div>
   </div>
-{{- end }}
-{{- end }}
 </div>
+
+<script>
+(() => {
+  const layout = document.querySelector('.blogs-layout');
+  if (!layout) return;
+
+  const entries = Array.from(document.querySelectorAll('.timeline-entry'));
+  const toggle = document.getElementById('tag-filter-toggle');
+  const dropdown = document.getElementById('tag-filter');
+  const menu = document.getElementById('tag-filter-menu');
+  const tagValue = document.getElementById('tag-filter-value');
+  const dateSelect = document.getElementById('date-filter');
+  const clearBtn = document.getElementById('filter-clear');
+  const countEl = document.getElementById('filter-count');
+  const emptyEl = document.getElementById('timeline-empty');
+
+  const parseTags = (el) => (el.dataset.tags || '').split('|').map((t) => t.trim()).filter(Boolean);
+
+  // Build the tag dropdown from the tags actually present on the timeline.
+  const tagCounts = new Map();
+  entries.forEach((el) => {
+    parseTags(el).forEach((tag) => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1));
+  });
+  const tags = Array.from(tagCounts.keys()).sort((a, b) => a.localeCompare(b));
+
+  const selected = new Set();
+
+  tags.forEach((tag) => {
+    const option = document.createElement('label');
+    option.className = 'filter-option';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.value = tag;
+
+    const name = document.createElement('span');
+    name.className = 'filter-option-name';
+    name.textContent = tag;
+
+    const count = document.createElement('span');
+    count.className = 'filter-option-count';
+    count.textContent = tagCounts.get(tag);
+
+    option.append(checkbox, name, count);
+    checkbox.addEventListener('change', () => {
+      checkbox.checked ? selected.add(tag) : selected.delete(tag);
+      apply();
+    });
+    menu.appendChild(option);
+  });
+
+  const closeMenu = () => {
+    menu.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    dropdown.classList.remove('open');
+  };
+
+  const apply = () => {
+    const year = dateSelect.value;
+    let visible = 0;
+
+    entries.forEach((el) => {
+      const entryTags = parseTags(el);
+      const tagOk = selected.size === 0 || entryTags.some((t) => selected.has(t));
+      const yearOk = !year || el.dataset.year === year;
+      const show = tagOk && yearOk;
+      el.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    document.querySelectorAll('.timeline-month').forEach((month) => {
+      month.hidden = !month.querySelector('.timeline-entry:not([hidden])');
+    });
+    document.querySelectorAll('.timeline-year').forEach((yearGroup) => {
+      yearGroup.hidden = !yearGroup.querySelector('.timeline-entry:not([hidden])');
+    });
+
+    countEl.textContent = visible + (visible === 1 ? ' post' : ' posts');
+    emptyEl.hidden = visible !== 0;
+
+    if (selected.size === 0) {
+      tagValue.textContent = 'All tags';
+    } else if (selected.size === 1) {
+      tagValue.textContent = Array.from(selected)[0];
+    } else {
+      tagValue.textContent = selected.size + ' tags';
+    }
+  };
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    toggle.setAttribute('aria-expanded', String(willOpen));
+    dropdown.classList.toggle('open', willOpen);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menu.hidden && !e.target.closest('#tag-filter')) closeMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) closeMenu();
+  });
+
+  dateSelect.addEventListener('change', apply);
+
+  clearBtn.addEventListener('click', () => {
+    selected.clear();
+    menu.querySelectorAll('input[type="checkbox"]').forEach((cb) => { cb.checked = false; });
+    dateSelect.value = '';
+    apply();
+  });
+
+  apply();
+})();
+</script>
 
 {{- end }}

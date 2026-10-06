@@ -1,0 +1,208 @@
+/* ==========================================================================
+   TYPOGRAPHY — single source of truth for the site font.
+   --------------------------------------------------------------------------
+   Edit THIS file to change the typeface, the type scale, or the weights.
+
+   • Different font? Either edit the @font-face src below, or just replace
+     --font-family with any font stack (drop the @font-face rules if you use
+     a system font or a hosted font).
+   • Sizes / weights live in the "Design tokens" block. The rules further
+     down apply them to specific text placements (headings, titles, meta,
+     navigation, code, …).
+   ========================================================================== */
+
+/* 1. Font files ---------------------------------------------------------- */
+/* Lexend variable font (weights 100–900), self-hosted in /static/fonts. */
+
+@font-face {
+    font-family: "Lexend";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/lexend/lexend-latin-wght-normal.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "Lexend";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/lexend/lexend-latin-ext-wght-normal.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* 2. Design tokens ------------------------------------------------------- */
+:root {
+    /* Families */
+    --font-family: "Lexend", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    /* Also feed Tailwind's font utilities, in case they are used. */
+    --font-sans: var(--font-family);
+    --default-font-family: var(--font-family);
+
+    /* Weights */
+    --fw-normal: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+    --fw-heading: 600;
+
+    /* Sizes */
+    --fs-body: 17px;
+    --fs-h1: 38px;
+    --fs-h2: 30px;
+    --fs-h3: 23px;
+    --fs-h4: 19px;
+    --fs-h5: 16px;
+    --fs-h6: 14px;
+    --fs-small: 14px;
+    --fs-meta: 13px;
+    --fs-title: 38px;
+    --fs-entry-title: 23px;
+    --fs-first-entry-title: 38px;
+    --fs-first-entry-title-sm: 32px;
+    --fs-logo: 22px;
+    --fs-nav: 15px;
+    --fs-code: 0.85em;
+
+    /* Line heights */
+    --lh-body: 1.65;
+}
+
+/* 3. Families ------------------------------------------------------------ */
+html,
+body {
+    font-family: var(--font-family);
+}
+
+body {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+}
+
+code,
+kbd,
+samp,
+pre {
+    font-family: var(--font-family-mono);
+}
+
+/* 4. Content headings ---------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: var(--fw-heading);
+}
+
+.md-content h1 {
+    font-size: var(--fs-h1);
+}
+
+.md-content h2 {
+    font-size: var(--fs-h2);
+}
+
+.md-content h3 {
+    font-size: var(--fs-h3);
+}
+
+.md-content h4 {
+    font-size: var(--fs-h4);
+}
+
+.md-content h5 {
+    font-size: var(--fs-h5);
+}
+
+.md-content h6 {
+    font-size: var(--fs-h6);
+}
+
+/* 5. Page & post titles -------------------------------------------------- */
+.page-header h1,
+.post-title {
+    font-size: var(--fs-title);
+}
+
+/* 6. Post list entries --------------------------------------------------- */
+.first-entry .entry-header h1 {
+    font-size: var(--fs-first-entry-title-sm);
+}
+
+.first-entry .entry-header h2 {
+    font-size: var(--fs-first-entry-title);
+}
+
+.entry-header h2 {
+    font-size: var(--fs-entry-title);
+    font-weight: var(--fw-medium);
+}
+
+.entry-content,
+.first-entry .entry-content {
+    font-size: var(--fs-small);
+}
+
+.entry-footer,
+.first-entry .entry-footer,
+.entry-cover {
+    font-size: var(--fs-meta);
+}
+
+/* 7. Meta text ----------------------------------------------------------- */
+.post-meta,
+.breadcrumbs,
+.footer,
+.pagination a,
+.copy-code {
+    font-size: var(--fs-meta);
+}
+
+.breadcrumbs a {
+    font-size: var(--fs-small);
+}
+
+/* 8. Navigation ---------------------------------------------------------- */
+.logo a {
+    font-size: var(--fs-logo);
+    font-weight: var(--fw-bold);
+}
+
+.menu a {
+    font-size: var(--fs-nav);
+}
+
+/* 9. Code ---------------------------------------------------------------- */
+.post-content code {
+    font-size: var(--fs-code);
+}
+
+/* 10. Responsive scale --------------------------------------------------- */
+@media (max-width: 768px) {
+    :root {
+        --fs-body: 16px;
+        --fs-title: 30px;
+        --fs-first-entry-title: 30px;
+        --fs-first-entry-title-sm: 26px;
+        --fs-h1: 30px;
+        --fs-h2: 26px;
+        --fs-h3: 21px;
+        --fs-logo: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --fs-body: 15px;
+        --fs-title: 26px;
+        --fs-first-entry-title: 26px;
+        --fs-h1: 26px;
+        --fs-h2: 22px;
+        --fs-h3: 19px;
+    }
+}

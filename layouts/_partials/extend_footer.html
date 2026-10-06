@@ -53,8 +53,16 @@
         try {
             const r = await fetch('/index.json');
             if (!r.ok) throw new Error('Index load failed');
-            idx = await r.json();
-            if (idx && typeof Fuse !== 'undefined') {
+            const data = await r.json();
+            // Drop any duplicate entries (defensive: a build should not emit any).
+            const seen = new Set();
+            idx = (Array.isArray(data) ? data : []).filter((item) => {
+                const url = item && item.permalink;
+                if (!url || seen.has(url)) return false;
+                seen.add(url);
+                return true;
+            });
+            if (idx.length && typeof Fuse !== 'undefined') {
                 fuse = new Fuse(idx, {
                     keys: ['title', 'content', 'summary'],
                     threshold: 0.4,
