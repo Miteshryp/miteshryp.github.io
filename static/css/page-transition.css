@@ -1,0 +1,56 @@
+/* Fade out / fade in between internal page navigations using the
+   cross-document View Transitions API.
+   Only the page content (`.main`) fades; the header, footer and background
+   stay in place. Browsers without support simply navigate normally. */
+
+@view-transition {
+    navigation: auto;
+}
+
+@keyframes page-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes page-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Capture the main content as its own named group so it can fade
+   independently of the rest of the page. */
+.main {
+    view-transition-name: content;
+}
+
+/* Keep everything outside the content (header, footer, background) static. */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+}
+
+::view-transition-old(content) {
+    animation: page-fade-out 0.2s ease both;
+}
+
+::view-transition-new(content) {
+    animation: page-fade-in 0.25s ease 0.12s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    ::view-transition-old(content),
+    ::view-transition-new(content) {
+        animation: none;
+    }
+}

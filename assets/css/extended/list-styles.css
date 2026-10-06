@@ -1,0 +1,25 @@
+/* Restore list markers removed by Tailwind's preflight (ol, ul, menu { list-style: none }). */
+
+.md-content ul {
+    list-style: disc;
+}
+
+.md-content ul ul {
+    list-style: circle;
+}
+
+.md-content ul ul ul {
+    list-style: square;
+}
+
+.md-content ol {
+    list-style: decimal;
+}
+
+.md-content ol ol {
+    list-style: lower-alpha;
+}
+
+.md-content ol ol ol {
+    list-style: lower-roman;
+}
