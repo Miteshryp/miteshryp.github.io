@@ -1,0 +1,6 @@
+{{- /* Triple-quoted blocks render as verse/quote (never code). */ -}}
+{{- if eq .Type "block" -}}
+<pre class="verse">{{ trim (string .Inner) "\n\r" }}</pre>
+{{- else -}}
+{{ .Inner }}
+{{- end -}}

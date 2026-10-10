@@ -1,0 +1,70 @@
+/* Code block component (fenced code blocks). */
+
+.code-block {
+    margin: 1.5rem 0;
+    border: 1px solid var(--code-block-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--code-block-bg);
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--code-block-border);
+    background: color-mix(in srgb, var(--code-block-bg) 92%, var(--primary) 8%);
+}
+
+.code-block-lang {
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.code-block-title {
+    font-family: var(--font-family-mono, ui-monospace, monospace);
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.code-block-copy {
+    margin-inline-start: auto;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: var(--secondary);
+    background: transparent;
+    border: 1px solid var(--code-block-border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.code-block-copy:hover {
+    color: var(--primary);
+    border-color: var(--secondary);
+}
+
+.code-block-copy.copied {
+    color: #1a7f37;
+    border-color: #1a7f37;
+}
+
+/* Neutralise the theme's per-block spacing/bg now that we wrap it. */
+.code-block-body .highlight {
+    margin: 0 !important;
+    border-radius: 0;
+}
+
+.code-block-body pre,
+.code-block-body pre.chroma {
+    margin: 0;
+    padding: 12px 14px;
+}
+
+.code-block-body code {
+    padding: 0 !important;
+}

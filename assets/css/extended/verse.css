@@ -1,0 +1,17 @@
+/* Verse / quote blocks, rendered from triple-quoted blocks or ```verse fences. */
+
+pre.verse {
+    margin: 1.75rem 0;
+    padding: 4px 0 4px 20px;
+    border-inline-start: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    color: var(--secondary);
+    font-family: inherit;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    white-space: pre-wrap;
+    word-break: normal;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+}

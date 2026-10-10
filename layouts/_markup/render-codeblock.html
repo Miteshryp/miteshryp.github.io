@@ -1,0 +1,17 @@
+{{- /* Code block component. `verse`/`poem` fences render as verse instead. */ -}}
+{{- $lang := .Type | default "text" -}}
+{{- if or (eq $lang "verse") (eq $lang "poem") -}}
+<pre class="verse">{{ trim (string .Inner) "\n\r" }}</pre>
+{{- else -}}
+{{- $title := "" -}}
+{{- with .Attributes.title }}{{ $title = . }}{{ end -}}
+{{- $result := transform.HighlightCodeBlock . -}}
+<div class="code-block">
+    <div class="code-block-header">
+        <span class="code-block-lang">{{ $lang }}</span>
+        {{- with $title }}<span class="code-block-title">{{ . }}</span>{{ end }}
+        <button type="button" class="code-block-copy" aria-label="Copy code to clipboard">Copy</button>
+    </div>
+    <div class="code-block-body">{{ $result.Wrapped }}</div>
+</div>
+{{- end -}}

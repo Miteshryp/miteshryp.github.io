@@ -53,8 +53,16 @@
         try {
             const r = await fetch('/index.json');
             if (!r.ok) throw new Error('Index load failed');
-            idx = await r.json();
-            if (idx && typeof Fuse !== 'undefined') {
+            const data = await r.json();
+            // Drop any duplicate entries (defensive: a build should not emit any).
+            const seen = new Set();
+            idx = (Array.isArray(data) ? data : []).filter((item) => {
+                const url = item && item.permalink;
+                if (!url || seen.has(url)) return false;
+                seen.add(url);
+                return true;
+            });
+            if (idx.length && typeof Fuse !== 'undefined') {
                 fuse = new Fuse(idx, {
                     keys: ['title', 'content', 'summary'],
                     threshold: 0.4,
@@ -160,6 +168,43 @@
     } else if (mq.addListener) {
         mq.addListener(resetOnDesktop);
     }
+})();
+</script>
+<script>
+(() => {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.code-block-copy');
+        if (!btn) return;
+        const block = btn.closest('.code-block');
+        const code = block && block.querySelector('.code-block-body code');
+        if (!code) return;
+
+        const done = () => {
+            const label = btn.dataset.label || btn.textContent;
+            btn.dataset.label = label;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            window.setTimeout(() => {
+                btn.textContent = label;
+                btn.classList.remove('copied');
+            }, 1500);
+        };
+
+        const text = code.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(() => {});
+        } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (_) {}
+            document.body.removeChild(ta);
+        }
+    });
 })();
 </script>
 {{- /* Footer custom content area end */ -}}

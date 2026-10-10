@@ -6,6 +6,10 @@ theme = 'PaperMod'
 # Number of posts per page on the home page (configurable k value)
 paginate = 5
 
+# The Tags landing page (/tags/) is removed. Tags themselves remain available
+# (individual term pages + the filter on the Blogs page).
+disableKinds = ["taxonomy"]
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
@@ -15,23 +19,32 @@ paginate = 5
 [markup.goldmark.renderer]
   unsafe = true
 
+# Class-based syntax highlighting so light/dark token colors can be themed
+# (palettes live in assets/css/extended/chroma-themes.css).
+[markup.highlight]
+  noClasses = false
+
+# Verse blocks: text between triple quotes is passed through untouched and
+# rendered by layouts/_markup/render-passthrough.html.
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [['"""', '"""']]
+    inline = []
+
 [menu]
   [[menu.main]]
     name = 'Home'
     url = '/'
     weight = 1
   [[menu.main]]
-    name = 'Tags'
-    url = '/tags/'
+    name = 'Blogs'
+    url = '/blogs/'
     weight = 2
-  [[menu.main]]
-    name = 'Archives'
-    url = '/archives/'
-    weight = 3
   [[menu.main]]
     name = 'About'
     url = '/about/'
-    weight = 4
+    weight = 3
 
 
 [params]
@@ -43,7 +56,7 @@ paginate = 5
   ShowShareButtons = false
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
-  ShowCodeCopyButtons = true
+  ShowCodeCopyButtons = false
   ShowPageNums = true
   ShowAllPagesInArchive = true
   ShowToc = true
@@ -51,7 +64,7 @@ paginate = 5
 
   [params.homeInfoParams]
     Title = "Hii 👋, I'm Mitesh"
-    Content = """A Compiler Engineer passionate about research and developing systems for High Performance Computing. Currently working with Prof V. Krishna Nandivada @ IIT Madras"""
+    Content = """A Compiler Engineer passionate about research and developing systems for Deep Learning. Currently working with Prof V. Krishna Nandivada @ IIT Madras"""
     image = "/profile.png"
 
   [[params.socialIcons]]
