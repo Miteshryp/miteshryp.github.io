@@ -104,8 +104,8 @@ Build call-to-action buttons, download links, or tags with any color and size:
 
 <p class="flex flex-wrap gap-2 my-5">
   <a href="/about/" class="rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white no-underline hover:bg-emerald-700 transition">Learn More</a>
-  <a href="/tags/" class="rounded-md bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black no-underline hover:bg-amber-600 transition">Browse Tags</a>
-  <a href="/archives/" class="rounded-full bg-purple-600 px-4 py-2 text-sm font-medium text-white no-underline hover:bg-purple-700 transition">View Archives</a>
+  <a href="/blogs/" class="rounded-md bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black no-underline hover:bg-amber-600 transition">Browse Blogs</a>
+  <a href="/blogs/" class="rounded-full bg-purple-600 px-4 py-2 text-sm font-medium text-white no-underline hover:bg-purple-700 transition">View Blogs</a>
   <span class="rounded-md bg-gray-200 px-3 py-1.5 text-xs font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-300">Static Tag</span>
 </p>
 
