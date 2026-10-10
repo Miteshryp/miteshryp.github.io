@@ -1,0 +1,13 @@
+{{- /* Renders Markdown blockquotes. GitHub-style alerts become callouts. */ -}}
+{{- if eq .Type "alert" -}}
+{{- $type := .AlertType | default "note" -}}
+<div class="callout callout-{{ $type }}">
+    <div class="callout-title">
+        <span class="callout-icon" aria-hidden="true">{{ partial "callout_icon.html" $type }}</span>
+        <span class="callout-title-text">{{ with .AlertTitle }}{{ . }}{{ else }}{{ $type | title }}{{ end }}</span>
+    </div>
+    <div class="callout-body">{{ .Text }}</div>
+</div>
+{{- else -}}
+<blockquote>{{ .Text }}</blockquote>
+{{- end -}}

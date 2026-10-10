@@ -17,9 +17,9 @@ Hii! I am Mitesh Sharma, a graduate student and research scholar at IIT Madras p
 - PGEE CSE 2025 Qualified - AIR 26
 
 #### Teaching Assistantship at IIT Madras
-- Cloud Computing (CS6847) - Prof. [D. Janakiram](https://www.linkedin.com/in/djram/)
-- Computer Organization and Architecture (CS2600) - Prof. [Gopalakrishnan Srinivasan](https://www.linkedin.com/in/gopalakrishnan-srinivasan-ab442420/)
-- Programming with AI (CS5013) - Prof. V. Krishna Nandivada
+- Programming with AI (CS5013 - July 2026) - Prof. [V. Krishna Nandivada](https://www.cse.iitm.ac.in/~krishna/)
+- Computer Organization and Architecture (CS2600 - Jan 2026) - Prof. [Gopalakrishnan Srinivasan](https://www.linkedin.com/in/gopalakrishnan-srinivasan-ab442420/)
+- Cloud Computing (CS6847 - July 2025) - Prof. [D. Janakiram](https://www.linkedin.com/in/djram/)
 
 ## Relevant Coursework
 ### IIT Madras

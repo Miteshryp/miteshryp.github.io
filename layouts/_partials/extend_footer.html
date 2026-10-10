@@ -170,4 +170,41 @@
     }
 })();
 </script>
+<script>
+(() => {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.code-block-copy');
+        if (!btn) return;
+        const block = btn.closest('.code-block');
+        const code = block && block.querySelector('.code-block-body code');
+        if (!code) return;
+
+        const done = () => {
+            const label = btn.dataset.label || btn.textContent;
+            btn.dataset.label = label;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            window.setTimeout(() => {
+                btn.textContent = label;
+                btn.classList.remove('copied');
+            }, 1500);
+        };
+
+        const text = code.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(() => {});
+        } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (_) {}
+            document.body.removeChild(ta);
+        }
+    });
+})();
+</script>
 {{- /* Footer custom content area end */ -}}

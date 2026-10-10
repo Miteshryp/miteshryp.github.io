@@ -59,7 +59,7 @@
           <div class="timeline-entries">
             {{- range .Pages }}
             {{- if eq .Kind "page" }}
-            <div class="timeline-entry" data-year="{{ $year }}" data-tags="{{ delimit .Params.tags "|" }}">
+            <div class="timeline-entry" data-year="{{ $year }}" data-tags="{{ delimit (.Params.tags | default (slice)) "|" }}">
               <div class="timeline-dot"></div>
               <div class="timeline-content">
                 <a class="timeline-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>

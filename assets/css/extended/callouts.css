@@ -1,0 +1,82 @@
+/* GitHub-style alert callouts, rendered from `> [!NOTE]` blockquotes. */
+
+.callout {
+    --callout-accent: #0969da;
+    margin: 1.5rem 0;
+    padding: 12px 16px;
+    border: 1px solid color-mix(in srgb, var(--callout-accent) 30%, transparent);
+    border-left: 4px solid var(--callout-accent);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--callout-accent) 8%, transparent);
+}
+
+.callout-note {
+    --callout-accent: #0969da;
+}
+
+.callout-tip {
+    --callout-accent: #1a7f37;
+}
+
+.callout-important {
+    --callout-accent: #8250df;
+}
+
+.callout-warning {
+    --callout-accent: #9a6700;
+}
+
+.callout-caution {
+    --callout-accent: #cf222e;
+}
+
+:root[data-theme="dark"] .callout-note {
+    --callout-accent: #4493f8;
+}
+
+:root[data-theme="dark"] .callout-tip {
+    --callout-accent: #3fb950;
+}
+
+:root[data-theme="dark"] .callout-important {
+    --callout-accent: #ab7df8;
+}
+
+:root[data-theme="dark"] .callout-warning {
+    --callout-accent: #d29922;
+}
+
+:root[data-theme="dark"] .callout-caution {
+    --callout-accent: #f85149;
+}
+
+.callout-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--callout-accent);
+}
+
+.callout-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.callout-icon svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.callout-body {
+    margin-top: 6px;
+}
+
+.callout-body > :first-child {
+    margin-top: 0;
+}
+
+.callout-body > :last-child {
+    margin-bottom: 0;
+}
