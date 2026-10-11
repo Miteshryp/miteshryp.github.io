@@ -77,6 +77,10 @@ draft: true
                 A[index[i]] = B[i] + 1;
             }
         }
+        // Talk about the pointer-chasing pattern
+            - dynamic data: problem in general
+            - vectorization becomes impossible
+            - commonly found in graph and database applications
 
         // Cannot be parallelised - Parallelisation fails due to cross-iteration dependence
         void strict_recurrence(int N, int A[N], int B[N]) {
