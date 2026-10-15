@@ -1,7 +1,11 @@
-{{- /* Code block component. `verse`/`poem` fences render as verse instead. */ -}}
+{{- /* Code block component.
+   - `verse`/`poem` fences render as verse.
+   - `latex`/`math`/`tex` fences render as display math (build-time, KaTeX → HTML+MathML). */ -}}
 {{- $lang := .Type | default "text" -}}
 {{- if or (eq $lang "verse") (eq $lang "poem") -}}
-<pre class="verse">{{ trim (string .Inner) "\n\r" }}</pre>
+{{ partial "verse_render.html" .Inner }}
+{{- else if or (eq $lang "latex") (eq $lang "math") (eq $lang "tex") -}}
+<div class="math-block">{{ transform.ToMath .Inner (dict "displayMode" true "output" "htmlAndMathml" "throwOnError" false) }}</div>
 {{- else -}}
 {{- $title := "" -}}
 {{- with .Attributes.title }}{{ $title = . }}{{ end -}}

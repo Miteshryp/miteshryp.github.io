@@ -1,0 +1,9 @@
+{{- /* Renders raw verse text: escaped, with links, bold and italic.
+   Whitespace/indentation is preserved via <pre>. Shared by the ```verse
+   code fence and the triple-quoted passthrough block. */ -}}
+{{- $t := trim (string .) "\n\r" -}}
+{{- $t = htmlEscape $t -}}
+{{- $t = replaceRE `\[([^\]]+)\]\((https?://[^)\s]+|mailto:[^)\s]+|/[^)\s]*|#[^)\s]+)\)` `<a href="$2">$1</a>` $t -}}
+{{- $t = replaceRE `\*\*([^*\n]+)\*\*` `<strong>$1</strong>` $t -}}
+{{- $t = replaceRE `\*([^*\n]+)\*` `<em>$1</em>` $t -}}
+<pre class="verse">{{ $t | safeHTML }}</pre>

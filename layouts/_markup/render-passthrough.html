@@ -1,6 +1,8 @@
-{{- /* Triple-quoted blocks render as verse/quote (never code). */ -}}
+{{- /* Goldmark passthrough:
+   - block (""" ... """) -> verse
+   - inline (\( ... \))   -> inline math (build-time KaTeX) */ -}}
 {{- if eq .Type "block" -}}
-<pre class="verse">{{ trim (string .Inner) "\n\r" }}</pre>
+{{ partial "verse_render.html" .Inner }}
 {{- else -}}
-{{ .Inner }}
+{{ transform.ToMath .Inner (dict "displayMode" false "output" "htmlAndMathml" "throwOnError" false) }}
 {{- end -}}

@@ -30,7 +30,7 @@ disableKinds = ["taxonomy"]
   enable = true
   [markup.goldmark.extensions.passthrough.delimiters]
     block = [['"""', '"""']]
-    inline = []
+    inline = [['\(', '\)']]
 
 [menu]
   [[menu.main]]
@@ -61,6 +61,7 @@ disableKinds = ["taxonomy"]
   ShowAllPagesInArchive = true
   ShowToc = true
   TocOpen = true
+  defaultTheme = "auto"
 
   [params.homeInfoParams]
     Title = "Hii 👋, I'm Mitesh"

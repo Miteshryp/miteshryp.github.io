@@ -1,7 +1,7 @@
 .post-tags a,
 .terms-tags a {
     display: inline-flex;
-    padding: 0;
+    padding: 0 8px;
     background: transparent;
     color: inherit;
     font-size: inherit;

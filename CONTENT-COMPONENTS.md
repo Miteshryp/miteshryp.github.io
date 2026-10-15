@@ -102,6 +102,47 @@ a blank line terminates the block, so multi-stanza poems will not parse. Use
 
 ---
 
+## 4. Math (LaTeX)
+
+### ` ```latex ` blocks (display math)
+Any content in a ` ```latex ` (or ` ```math ` / ` ```tex `) fence is rendered as
+**display math** at build time (KaTeX → HTML + MathML). No client-side JS is used.
+
+````markdown
+```latex
+\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}
+```
+````
+
+Multi-line environments work too:
+
+````markdown
+```latex
+\begin{align}
+a &= b + c \\
+  &= d
+\end{align}
+```
+````
+
+### Inline math — `\( ... \)`
+Use the LaTeX parenthesis delimiters in prose:
+
+```markdown
+Mass–energy equivalence: \(E = mc^2\).
+```
+
+> **Note:** single-dollar `$ ... $` is **not** enabled — it conflicts with
+> currency (e.g. `$5 and $10`). Use `\( ... \)` for inline math.
+
+Rendering is done at build time, so math works even with JavaScript disabled.
+KaTeX (CSS + woff2 fonts) is self-hosted under `static/katex/`; update it with
+`npm run copy:katex` after bumping the `katex` dev-dependency.
+
+**Files:** `layouts/_markup/render-codeblock.html` (block), `layouts/_markup/render-passthrough.html` (inline), `assets/css/extended/math.css`, `static/katex/`
+
+---
+
 ## Implementation notes
 
 - Callouts, code blocks and verse are implemented as Hugo **render hooks** in

@@ -1,0 +1,17 @@
+/* Typeset math. KaTeX's own stylesheet does the rendering; these rules only
+   adjust spacing/overflow within the site layout. */
+
+.math-block {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.math-block .katex-display {
+    margin: 0;
+}
+
+/* Inline math ($...$) should match surrounding text size. */
+.md-content .katex {
+    font-size: 1.05em;
+}
