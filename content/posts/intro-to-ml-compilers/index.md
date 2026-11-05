@@ -10,7 +10,10 @@ draft: true
 > Some code snippets shown in the blog are AI generated. They are only used to demonstrate concepts. The author takes complete responsibility of any and all semantic and conceptual meaning conveyed by these snippets
 
 > [!IMPORTANT]
-> Core content in the blog is not AI generated. All texts and explainations have been given by the author himself
+> Core content in the blog is not AI generated. All texts and explainations have been ideated and written by the author.
+
+
+
 
 # Blog structure
 - Need to decide on a story for this approach
